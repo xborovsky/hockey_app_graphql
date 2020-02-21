@@ -1,0 +1,71 @@
+type Player {
+    id : ID!
+    name : String!
+    number: Float
+    team : Team
+    photo : PlayerPhoto
+    comments : [PlayerComment]
+}
+
+type Team {
+    id : ID!
+    name : String!
+    players : [Player]!
+    photo : TeamPhoto
+    comments : [TeamComment]
+}
+
+type PlayerPhoto {
+    id : ID!
+    mimeType : String!
+    player : Player!
+    photoBase64 : String!
+}
+
+type TeamPhoto {
+    id : ID!
+    mimeType : String!
+    team : Team!
+    photoBase64 : String!
+}
+
+type PlayerComment {
+    id : ID!
+    userName : String!
+    created : String!
+    stars : Float!
+    comment : String!
+    player : Player!
+}
+
+type TeamComment {
+    id : ID!
+    userName : String!
+    created : String!
+    stars : Int!
+    comment : String!
+    team : Team!
+}
+
+input CommentInput {
+    userName: String!
+    stars : Int!
+    comment : String!
+}
+
+type Query {
+    players: [Player]!
+    player(id:ID!) : Player
+    teams: [Team]!
+    team(id:ID!) : Team
+    playerPhoto(playerId:ID!) : PlayerPhoto
+    teamPhoto(teamId:ID!) : TeamPhoto
+}
+
+type Mutation {
+    addTeam(name:String!): Team!
+    addPlayer(name:String!, number:Float, teamId:ID): Player!
+    assignTeamToPlayer(playerId:ID!, teamId:ID!): Player!
+    createPlayerComment(playerId:ID!, commentInput:CommentInput!): PlayerComment!
+    createTeamComment(teamId:ID!, commentInput:CommentInput!): TeamComment!
+}
